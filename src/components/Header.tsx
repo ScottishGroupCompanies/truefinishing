@@ -1,8 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { NAV } from "@/lib/site";
+import { LOGO, NAV } from "@/lib/site";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -11,9 +12,15 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-grey/70 bg-base/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1120px] items-center gap-4 px-4 py-3">
         <Link href="/" className="shrink-0" aria-label="True Finishing home">
-          {/* SVG wordmark from the live site. next/image blocks SVG unless dangerouslyAllowSVG is on. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/true-logo-black.svg" alt="True Finishing" width={150} height={62} className="h-12 w-auto" />
+          <Image
+            src={LOGO.header}
+            alt="True Finishing"
+            width={LOGO.headerWidth}
+            height={LOGO.headerHeight}
+            priority
+            unoptimized
+            className="h-[52px] w-auto lg:h-[57px]"
+          />
         </Link>
         <nav className="ml-auto hidden items-center gap-1 lg:flex" aria-label="Primary">
           {NAV.map((item) =>

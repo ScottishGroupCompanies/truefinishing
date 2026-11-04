@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Doc, Faq } from "./types";
-import { BUSINESS, SITE_URL } from "./site";
+import { BUSINESS, LOGO, SITE_URL } from "./site";
 
 export function absolute(docPath: string): string {
   if (docPath.startsWith("http")) return docPath;
@@ -23,7 +23,7 @@ export function pageMetadata(input: {
   noindex?: boolean;
   type?: "website" | "article";
 }): Metadata {
-  const image = input.image || "/brand/true-logo-black.svg";
+  const image = input.image || LOGO.header;
   return {
     title: input.title,
     description: input.description,
@@ -66,8 +66,8 @@ export function businessSchema() {
     url: `${SITE_URL}/`,
     telephone: "+1-303-761-1012",
     email: BUSINESS.email,
-    image: absolute("/brand/true-logo-black.svg"),
-    logo: absolute("/brand/true-logo-black.svg"),
+    image: absolute(LOGO.header),
+    logo: absolute(LOGO.header),
     foundingDate: BUSINESS.foundingYear,
     address: {
       "@type": "PostalAddress",
@@ -140,7 +140,7 @@ export function blogPostingSchema(doc: Doc) {
     dateModified: doc.updated || doc.publishDate,
     author: { "@type": "Organization", name: doc.author || BUSINESS.shortName },
     publisher: { "@id": `${SITE_URL}/#business` },
-    image: doc.hero ? absolute(doc.hero) : absolute("/brand/true-logo-black.svg"),
+    image: doc.hero ? absolute(doc.hero) : absolute(LOGO.header),
     mainEntityOfPage: absolute(doc.path),
   };
 }

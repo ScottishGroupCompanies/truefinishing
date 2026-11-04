@@ -1,5 +1,15 @@
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://truefinishing.com";
 
+/** Exact files from the live site. Header/favicon/schema use the header mark. Footer uses the white classic mark. */
+export const LOGO = {
+  header: "/brand/logo.png",
+  headerWidth: 1745,
+  headerHeight: 1825,
+  footer: "/brand/logo-classic-white.png",
+  footerWidth: 240,
+  footerHeight: 280,
+} as const;
+
 export const BUSINESS = {
   name: "True Finishing, LLC",
   shortName: "True Finishing",

@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { BUSINESS, SERVICE_LINKS } from "@/lib/site";
+import { BUSINESS, LOGO, SERVICE_LINKS } from "@/lib/site";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -7,8 +8,14 @@ export function Footer() {
     <footer className="bg-ink text-white">
       <div className="mx-auto grid max-w-[1120px] gap-8 px-4 py-12 md:grid-cols-4">
         <div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/true-logo-white.svg" alt="True Finishing" width={120} height={50} className="h-12 w-auto" />
+          <Image
+            src={LOGO.footer}
+            alt="True Finishing"
+            width={LOGO.footerWidth}
+            height={LOGO.footerHeight}
+            unoptimized
+            className="h-auto w-[100px]"
+          />
           <p className="mt-4 text-sm text-grey">
             {BUSINESS.name}
             <br />

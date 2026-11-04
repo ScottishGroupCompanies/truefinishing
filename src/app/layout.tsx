@@ -7,7 +7,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
 import { businessSchema } from "@/lib/seo";
-import { SITE_URL } from "@/lib/site";
+import { LOGO, SITE_URL } from "@/lib/site";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,7 +23,10 @@ export const metadata: Metadata = {
   },
   description:
     "True Finishing is a Denver concrete flooring contractor for prep, restoration, polished concrete, epoxy, and other floor finishes.",
-  icons: { icon: "/brand/true-logo-black.svg" },
+  icons: {
+    icon: [{ url: LOGO.header, type: "image/png", sizes: "1745x1825" }],
+    apple: [{ url: LOGO.header, type: "image/png" }],
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
