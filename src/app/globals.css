@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+@theme {
+  --color-base: #efeded;
+  --color-ink: #292929;
+  --color-amber: #ffac00;
+  --color-paper: #ffffff;
+  --color-grey: #b7b7b7;
+  --color-muted: #5c5c5c;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-base);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+a {
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: #8a5e00;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #ffac00;
+  color: #292929;
+  font-weight: 500;
+  padding: 0.7rem 1.2rem;
+  text-decoration: none;
+}
+
+.btn:hover {
+  color: #292929;
+  filter: brightness(0.96);
+}
+
+.field {
+  width: 100%;
+  border: 1px solid #b7b7b7;
+  border-radius: 9px;
+  background: #1f1f1f;
+  color: #fff;
+  padding: 0.7rem 0.8rem;
+}
+
+.field:focus {
+  outline: 2px solid #ffac00;
+  outline-offset: 1px;
+}
+
+.prose {
+  font-size: 1.05rem;
+}
+
+.prose > * + * {
+  margin-top: 1rem;
+}
+
+.prose h2 {
+  margin-top: 2rem;
+  font-size: 1.7rem;
+}
+
+.prose h3 {
+  margin-top: 1.5rem;
+  font-size: 1.3rem;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.25rem;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose a {
+  color: #292929;
+  text-decoration: underline;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid #b7b7b7;
+  padding: 0.45rem 0.55rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background: #fff;
+}
+
+.prose img {
+  border-radius: 6px;
+}
+
+:focus-visible {
+  outline: 2px solid #ffac00;
+  outline-offset: 2px;
+}

@@ -1,0 +1,23 @@
+---
+type: post
+title: 'Concrete Surface Profile: Grinding vs. Shot Blasting Guide | True Finishing'
+description: >-
+  Concrete surface profile (CSP) explained: what profile coatings and overlays
+  need, and how grinding, shot blasting and scarifying compare for floor prep.
+h1: 'Concrete Surface Profile: Grinding vs. Shot Blasting Guide'
+path: /floor-prep/concrete-surface-profile-prep-methods/
+category: floor-prep
+publishDate: '2026-11-17T10:00:00-07:00'
+author: True Finishing
+incomplete: true
+scheduled: true
+---
+Concrete surface profile (CSP) explained: what profile coatings and overlays need, and how grinding, shot blasting and scarifying compare for floor prep.
+
+<!-- TODO(Jenny): full article body was not migrated.
+WordPress does not expose future/scheduled posts on the public REST API
+(status=future returns 401), and the source file
+/workspace/truefinishing/november/posts.json was not in this environment.
+Paste the scheduled post body here before the publish date.
+This file stays unpublished (incomplete: true) until that TODO is removed
+and incomplete is set to false. -->
