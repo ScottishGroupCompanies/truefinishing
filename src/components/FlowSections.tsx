@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { allImages, blocksFromMarkdown, type FlowBlock, type FlowImage } from "@/lib/flow";
+import { allImages, blocksFromMarkdown, leadSentences, type FlowBlock, type FlowImage } from "@/lib/flow";
 import { MarkdownBody } from "./MarkdownBody";
 import { Reveal } from "./Reveal";
 
@@ -20,6 +20,11 @@ function Frame({ image, className = "" }: { image: FlowImage; className?: string
       <Image src={image.src} alt={image.alt} fill sizes="(min-width: 768px) 48vw, 100vw" className="object-cover" />
     </div>
   );
+}
+
+function Caption({ children }: { children: string }) {
+  if (!children.trim()) return null;
+  return <figcaption className="mt-2 text-sm leading-snug text-ink/80">{children}</figcaption>;
 }
 
 function GraphicPanel({ title }: { title: string }) {
@@ -96,6 +101,11 @@ function StepCards({ block }: { block: FlowBlock }) {
                 <div className="p-5">
                   {step.images[0] ? <h3 className="text-xl font-semibold">{step.title}</h3> : null}
                   {step.markdown ? <MarkdownBody source={step.markdown} /> : null}
+                  {!step.markdown && (step.images[0]?.alt || leadSentences(block.markdown, 1)) ? (
+                    <p className="mt-2 text-sm leading-snug text-ink/80">
+                      {step.images[0]?.alt || leadSentences(block.markdown, 1)}
+                    </p>
+                  ) : null}
                   {step.images.slice(1).map((image) => (
                     <div key={image.src} className="relative mt-4 aspect-[4/3] overflow-hidden rounded-xl">
                       <Image src={image.src} alt={image.alt} fill sizes="33vw" className="object-cover" />
@@ -180,14 +190,22 @@ export function FlowSections({ source }: { source: string }) {
       if (!own && pool.length) imageCursor += 1;
       nodes.push(<Split key={`split-${index}`} block={block} image={pool.length ? image : undefined} flip={proseCount % 2 === 1} />);
       if (block.images.length > 1) {
+        const extraLead = leadSentences(block.markdown, 1);
         nodes.push(
           <section key={`grid-${index}`} className="mark pb-16">
-            <div className="mx-auto grid max-w-[1120px] gap-4 px-4 sm:grid-cols-2 lg:grid-cols-3">
-              {block.images.slice(1).map((imageItem, imageIndex) => (
-                <Reveal key={imageItem.src} delay={imageIndex * 50}>
-                  <Frame image={imageItem} className="aspect-[4/3]" />
-                </Reveal>
-              ))}
+            <div className="mx-auto max-w-[1120px] px-4">
+              {block.heading ? <h2 className="text-3xl font-semibold">{block.heading}</h2> : null}
+              {extraLead ? <p className="mt-3 max-w-3xl">{extraLead}</p> : null}
+              <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {block.images.slice(1).map((imageItem, imageIndex) => (
+                  <Reveal key={imageItem.src} delay={imageIndex * 50}>
+                    <figure>
+                      <Frame image={imageItem} className="aspect-[4/3]" />
+                      <Caption>{imageItem.alt}</Caption>
+                    </figure>
+                  </Reveal>
+                ))}
+              </div>
             </div>
           </section>,
         );
@@ -199,13 +217,23 @@ export function FlowSections({ source }: { source: string }) {
   }
 
   if (pool.length >= 3) {
+    const sourceBlock = blocks.find(
+      (block) => !block.stat && block.heading && leadSentences(block.markdown, 1),
+    );
+    const galleryTitle = sourceBlock?.heading || blocks.find((block) => block.heading)?.heading || "";
+    const galleryText = leadSentences(sourceBlock?.markdown || "", 2);
     nodes.push(
-      <section key="gallery" className="bg-ink py-16" aria-label="Photos from this page">
+      <section key="gallery" className="mark py-16">
         <div className="mx-auto max-w-[1120px] px-4">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {galleryTitle ? <h2 className="text-3xl font-semibold">{galleryTitle}</h2> : null}
+          {galleryText ? <p className="mt-3 max-w-3xl">{galleryText}</p> : null}
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {pool.map((image, imageIndex) => (
               <Reveal key={image.src} delay={(imageIndex % 3) * 50} className={imageIndex % 3 === 1 ? "lg:mt-8" : ""}>
-                <Frame image={image} className="aspect-[4/3]" />
+                <figure>
+                  <Frame image={image} className="aspect-[4/3]" />
+                  <Caption>{image.alt}</Caption>
+                </figure>
               </Reveal>
             ))}
           </div>

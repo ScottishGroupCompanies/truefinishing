@@ -117,6 +117,23 @@ export function blocksFromMarkdown(source: string): FlowBlock[] {
     .filter((block) => block.heading || block.markdown || block.images.length || block.steps.length || block.ordered.length);
 }
 
+export function plainText(markdown: string): string {
+  return markdown
+    .replace(/!\[[^\]]*\]\([^)]+\)/g, "")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[*_`>#]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export function leadSentences(markdown: string, count = 2): string {
+  const parts = plainText(markdown)
+    .split(/(?<=[.!?])\s+/)
+    .map((part) => part.trim())
+    .filter((part) => part.length > 30 && !part.includes("TODO(Jenny)"));
+  return parts.slice(0, count).join(" ");
+}
+
 export function allImages(blocks: FlowBlock[]): FlowImage[] {
   const seen = new Set<string>();
   const images: FlowImage[] = [];
