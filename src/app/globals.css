@@ -142,6 +142,16 @@ a:hover {
   outline-offset: 2px;
 }
 
+.hero-media {
+  transform: scale(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-media {
+    transform: none;
+  }
+}
+
 .reveal {
   opacity: 1;
   transform: none;

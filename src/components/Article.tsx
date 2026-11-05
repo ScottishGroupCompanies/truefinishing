@@ -1,11 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
 import { FaqList } from "./FaqList";
 import { FlowSections } from "./FlowSections";
+import { HeroMedia } from "./HeroMedia";
 import { JsonLd } from "./JsonLd";
+import { MarkdownBody } from "./MarkdownBody";
 import { RelatedLinks } from "./RelatedLinks";
 import { EstimateForm } from "./EstimateForm";
 import { Reveal } from "./Reveal";
+import { StickyCta } from "./StickyCta";
 import type { Doc } from "@/lib/types";
 import { blogPostingSchema, breadcrumbSchema, caseStudySchema, faqSchema, serviceSchema } from "@/lib/seo";
 
@@ -60,6 +62,10 @@ function showForm(doc: Doc): boolean {
   return true;
 }
 
+function marketingPage(doc: Doc): boolean {
+  return doc.type !== "post";
+}
+
 export function Article({ doc }: { doc: Doc }) {
   const trail = crumbs(doc);
   const schema: unknown[] = [breadcrumbSchema(trail)];
@@ -69,14 +75,14 @@ export function Article({ doc }: { doc: Doc }) {
   if (doc.type === "case_study") schema.push(caseStudySchema(doc));
   if (doc.faq?.length) schema.push(faqSchema(doc.faq));
 
+  const marketing = marketingPage(doc);
+
   return (
     <>
-      <article>
-        <header className="relative isolate flex min-h-[70vh] items-end bg-ink text-white">
-          {doc.hero ? (
-            <Image src={doc.hero} alt="" fill priority sizes="100vw" className="object-cover" />
-          ) : null}
-          <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/65 to-ink/25" />
+      <article className={marketing ? "pb-20" : ""}>
+        <header className="relative isolate flex min-h-[78vh] items-end overflow-hidden bg-ink text-white">
+          {doc.hero ? <HeroMedia src={doc.hero} /> : null}
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/60 to-ink/25" />
           <div className="relative mx-auto w-full max-w-[1120px] px-4 py-16 md:py-24">
             <nav className="text-sm text-white/80" aria-label="Breadcrumb">
               {trail.map((item, index) => (
@@ -103,7 +109,13 @@ export function Article({ doc }: { doc: Doc }) {
             ) : null}
           </div>
         </header>
-        <FlowSections source={visibleBody(doc)} />
+        {marketing ? (
+          <FlowSections source={visibleBody(doc)} />
+        ) : (
+          <div className="mx-auto max-w-[760px] px-4 py-12">
+            <MarkdownBody source={visibleBody(doc)} />
+          </div>
+        )}
         {doc.faq?.length ? (
           <div className="bg-white">
             <Reveal>
@@ -130,6 +142,7 @@ export function Article({ doc }: { doc: Doc }) {
           </div>
         </section>
       )}
+      {marketing ? <StickyCta /> : null}
       <JsonLd data={schema} />
     </>
   );

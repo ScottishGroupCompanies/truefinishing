@@ -2,7 +2,7 @@ const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 export function EstimateForm({ heading = "Request an estimate" }: { heading?: string }) {
   return (
-    <section id="contact" className="scroll-mt-24 border-t-8 border-amber bg-ink text-white">
+    <section id="contact" className="scroll-mt-24 border-t-8 border-amber bg-ink pb-24 text-white">
       <div className="mx-auto grid max-w-[1120px] gap-8 px-4 py-14 md:grid-cols-2">
         <div>
           <h2 className="text-3xl font-semibold text-white">{heading}</h2>
