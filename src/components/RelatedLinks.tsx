@@ -1,10 +1,21 @@
+import Link from "next/link";
 import { cities, relatedPosts, relatedServices } from "@/lib/content";
 import { nearbyFor } from "@/lib/site";
 import type { Doc } from "@/lib/types";
+import { Reveal } from "./Reveal";
+
+function Card({ href, title, kicker }: { href: string; title: string; kicker: string }) {
+  return (
+    <Link href={href} className="service-card block rounded-2xl bg-white p-5 text-ink no-underline shadow-sm">
+      <p className="text-xs font-semibold uppercase tracking-wide text-muted">{kicker}</p>
+      <p className="mt-2 text-lg font-semibold">{title}</p>
+    </Link>
+  );
+}
 
 export function RelatedLinks({ doc }: { doc: Doc }) {
   const services = relatedServices(doc, doc.type === "post" ? 2 : 4);
-  const posts = doc.type === "post" ? relatedPosts(doc, 3) : relatedPosts(doc, 3);
+  const posts = relatedPosts(doc, 3);
   const cityLinks =
     doc.type === "city"
       ? nearbyFor(doc.path)
@@ -13,44 +24,29 @@ export function RelatedLinks({ doc }: { doc: Doc }) {
       : cities().slice(0, 4);
 
   return (
-    <aside className="mx-auto max-w-[720px] px-4 py-8">
-      <h2 className="text-2xl font-semibold">Keep reading</h2>
-      <div className="mt-4 grid gap-6 sm:grid-cols-2">
-        <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-muted">Services</h3>
-          <ul className="mt-2 space-y-1">
-            {services.map((item) => (
-              <li key={item.path}>
-                <a href={item.path}>{item.h1}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-muted">
-            {doc.type === "city" ? "Nearby cities" : "Cities"}
-          </h3>
-          <ul className="mt-2 space-y-1">
-            {cityLinks.map((item) => (
-              <li key={item.path}>
-                <a href={item.path}>{item.h1}</a>
-              </li>
-            ))}
-          </ul>
+    <aside className="bg-base py-16">
+      <div className="mx-auto max-w-[1120px] px-4">
+        <Reveal>
+          <h2 className="text-3xl font-semibold">Keep reading</h2>
+        </Reveal>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((item, index) => (
+            <Reveal key={item.path} delay={index * 40}>
+              <Card href={item.path} title={item.h1} kicker="Service" />
+            </Reveal>
+          ))}
+          {cityLinks.map((item, index) => (
+            <Reveal key={item.path} delay={index * 40}>
+              <Card href={item.path} title={item.h1} kicker={doc.type === "city" ? "Nearby city" : "City"} />
+            </Reveal>
+          ))}
+          {posts.map((item, index) => (
+            <Reveal key={item.path} delay={index * 40}>
+              <Card href={item.path} title={item.h1} kicker="From the blog" />
+            </Reveal>
+          ))}
         </div>
       </div>
-      {posts.length ? (
-        <div className="mt-6">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-muted">From the blog</h3>
-          <ul className="mt-2 space-y-1">
-            {posts.map((item) => (
-              <li key={item.path}>
-                <a href={item.path}>{item.h1}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
     </aside>
   );
 }

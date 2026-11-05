@@ -125,27 +125,29 @@ export default async function CatchAllPage({ params }: { params: Promise<Params>
   const listing = resolveListing(slug);
   if (listing) {
     const base = listing.kind === "blog" ? "/blog/" : `/category/${slug[1]}/`;
+    const intro =
+      listing.page === 1 && listing.intro
+        ? listing.intro
+            .replace(/<!--[\s\S]*?-->/g, "")
+            .replace(/^#+\s+/gm, "")
+            .replace(/\s+/g, " ")
+            .trim()
+        : listing.description;
     return (
-      <section className="mx-auto max-w-[720px] px-4 py-12">
-        <h1 className="text-4xl font-semibold">{listing.h1}</h1>
-        {listing.page === 1 && listing.intro ? (
-          <p className="mt-4">
-            {listing.intro
-              .replace(/<!--[\s\S]*?-->/g, "")
-              .replace(/^#+\s+/gm, "")
-              .replace(/\s+/g, " ")
-              .trim()}
-          </p>
-        ) : (
-          <p className="mt-4">{listing.description}</p>
-        )}
-        <div className="mt-8">
+      <>
+        <section className="bg-ink text-white">
+          <div className="mx-auto max-w-[1120px] px-4 py-16 md:py-24">
+            <h1 className="max-w-[16ch] text-4xl font-semibold md:text-6xl">{listing.h1}</h1>
+            <p className="mt-4 max-w-[62ch] text-lg text-white/90">{intro}</p>
+          </div>
+        </section>
+        <section className="mx-auto max-w-[1120px] px-4 py-12">
           <PostList posts={listing.posts} />
           <Pager base={base} page={listing.page} pages={listing.pages} />
-        </div>
-        <p className="mt-8 text-sm text-muted">{POSTS_PER_PAGE} articles per page, newest first.</p>
-        {listing.kind === "blog" && listing.page === 1 ? <div className="mt-10 -mx-4"><EstimateForm /></div> : null}
-      </section>
+          <p className="mt-8 text-sm text-muted">{POSTS_PER_PAGE} articles per page, newest first.</p>
+        </section>
+        {listing.kind === "blog" && listing.page === 1 ? <EstimateForm /> : null}
+      </>
     );
   }
 
