@@ -74,7 +74,7 @@ function StatStrip({ blocks }: { blocks: FlowBlock[] }) {
 function StepCards({ block }: { block: FlowBlock }) {
   const comparison = block.steps.length >= 2 && block.steps.every((step) => /before|during|after/i.test(step.title));
   return (
-    <section className="bg-white py-16">
+    <section className="mark py-16">
       <div className="mx-auto max-w-[1120px] px-4">
         <Reveal>
           <Copy block={{ ...block, steps: [], ordered: [] }} />
@@ -82,7 +82,7 @@ function StepCards({ block }: { block: FlowBlock }) {
         <div className={`mt-8 grid gap-5 ${comparison ? "md:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-3"}`}>
           {block.steps.map((step, index) => (
             <Reveal key={step.title} delay={index * 60} className={!comparison && index % 3 === 1 ? "lg:mt-8" : ""}>
-              <article className="service-card h-full overflow-hidden rounded-2xl border border-grey bg-base">
+              <article className="service-card h-full overflow-hidden rounded-2xl border border-grey bg-white">
                 {step.images[0] ? (
                   <div className="relative aspect-[4/3]">
                     <Image src={step.images[0].src} alt={step.images[0].alt} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
@@ -113,7 +113,7 @@ function StepCards({ block }: { block: FlowBlock }) {
 
 function ProcessBand({ block }: { block: FlowBlock }) {
   return (
-    <section className="bg-base py-16">
+    <section className="mark mark-right py-16">
       <div className="mx-auto max-w-[1120px] px-4">
         {block.heading || block.markdown ? (
           <Reveal>
@@ -122,7 +122,7 @@ function ProcessBand({ block }: { block: FlowBlock }) {
         ) : null}
         <ol className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {block.ordered.map((item, index) => (
-            <li key={item.slice(0, 24)} className="service-card rounded-2xl bg-white p-5 shadow-sm">
+            <li key={item.slice(0, 40)} className="service-card rounded-2xl bg-white p-5 shadow-sm">
               <span className="grid h-10 w-10 place-items-center rounded-full bg-amber text-sm font-semibold text-ink">{index + 1}</span>
               <div className="mt-3">
                 <MarkdownBody source={item} />
@@ -137,7 +137,7 @@ function ProcessBand({ block }: { block: FlowBlock }) {
 
 function Split({ block, image, flip }: { block: FlowBlock; image?: FlowImage; flip: boolean }) {
   return (
-    <section className={flip ? "bg-base py-16 md:py-24" : "bg-white py-16 md:py-24"}>
+    <section className={`mark py-14 md:py-20 ${flip ? "mark-right" : ""}`}>
       <Reveal>
         <div className="mx-auto grid max-w-[1120px] items-center gap-8 px-4 md:grid-cols-2 md:gap-16">
           <div className={flip ? "md:order-2" : ""}>
@@ -181,7 +181,7 @@ export function FlowSections({ source }: { source: string }) {
       nodes.push(<Split key={`split-${index}`} block={block} image={pool.length ? image : undefined} flip={proseCount % 2 === 1} />);
       if (block.images.length > 1) {
         nodes.push(
-          <section key={`grid-${index}`} className="bg-white pb-16">
+          <section key={`grid-${index}`} className="mark pb-16">
             <div className="mx-auto grid max-w-[1120px] gap-4 px-4 sm:grid-cols-2 lg:grid-cols-3">
               {block.images.slice(1).map((imageItem, imageIndex) => (
                 <Reveal key={imageItem.src} delay={imageIndex * 50}>

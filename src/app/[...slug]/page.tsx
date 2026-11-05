@@ -136,15 +136,17 @@ export default async function CatchAllPage({ params }: { params: Promise<Params>
     return (
       <>
         <section className="bg-ink text-white">
-          <div className="mx-auto max-w-[1120px] px-4 py-16 md:py-24">
-            <h1 className="max-w-[16ch] text-4xl font-semibold md:text-6xl">{listing.h1}</h1>
+          <div className="mx-auto max-w-[1120px] px-4 py-12 md:py-16">
+            <h1 className="max-w-[14ch] text-5xl font-semibold leading-[0.92] tracking-tight md:text-7xl">{listing.h1}</h1>
             <p className="mt-4 max-w-[62ch] text-lg text-white/90">{intro}</p>
           </div>
         </section>
-        <section className="mx-auto max-w-[1120px] px-4 py-12">
+        <section className="mark py-12">
+          <div className="mx-auto max-w-[1120px] px-4">
           <PostList posts={listing.posts} />
           <Pager base={base} page={listing.page} pages={listing.pages} />
           <p className="mt-8 text-sm text-muted">{POSTS_PER_PAGE} articles per page, newest first.</p>
+          </div>
         </section>
         {listing.kind === "blog" && listing.page === 1 ? <EstimateForm /> : null}
       </>

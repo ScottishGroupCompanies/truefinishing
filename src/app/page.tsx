@@ -94,7 +94,7 @@ export default function HomePage() {
   const studies = caseStudies();
   return (
     <>
-      <section className="relative isolate flex min-h-[88vh] items-end bg-ink text-white">
+      <section className="relative isolate flex min-h-[520px] items-end bg-ink text-white md:min-h-[600px]">
         <Image
           src="/images/tile-carpet-floor-finishings-floor-prep-case-016.webp"
           alt=""
@@ -104,8 +104,8 @@ export default function HomePage() {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/60 to-ink/20" />
-        <div className="relative mx-auto w-full max-w-[1120px] px-4 pb-28 pt-24">
-          <h1 className="max-w-[14ch] text-4xl font-semibold leading-[1.05] md:text-6xl">
+        <div className="relative mx-auto w-full max-w-[1120px] px-4 pb-24 pt-16">
+          <h1 className="max-w-[16ch] text-5xl font-semibold leading-[0.92] tracking-tight md:text-7xl">
             Denver’s trusted experts in flooring prep, concrete polishing, and concrete finishing.
           </h1>
           <p className="mt-5 max-w-[58ch] text-lg text-white">
@@ -127,7 +127,8 @@ export default function HomePage() {
         <StatBand />
       </div>
 
-      <section className="mx-auto grid max-w-[1120px] items-center gap-10 px-4 py-20 md:grid-cols-2">
+      <section className="mark py-16 md:py-20">
+        <div className="mx-auto grid max-w-[1120px] items-center gap-10 px-4 md:grid-cols-2">
         <Reveal>
           <div>
             <h2 className="text-3xl font-semibold md:text-4xl">
@@ -156,9 +157,10 @@ export default function HomePage() {
             />
           </div>
         </Reveal>
+        </div>
       </section>
 
-      <section className="bg-white py-16">
+      <section className="mark py-16">
         <div className="mx-auto max-w-[1120px] px-4">
           <div className="grid gap-5 sm:grid-cols-2">
             {services.map((service, index) => (
@@ -195,7 +197,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1120px] px-4 py-16">
+      <section className="mark py-16">
+        <div className="mx-auto max-w-[1120px] px-4">
         <SnapSlider label="Work across the Front Range">
           {projects.map((project) => (
             <Link
@@ -230,6 +233,7 @@ export default function HomePage() {
         <p className="mt-4">
           <Link href="/case-studies/">View all case studies</Link>
         </p>
+        </div>
       </section>
 
       <section className="bg-ink py-16 text-white">

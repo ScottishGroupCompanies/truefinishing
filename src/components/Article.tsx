@@ -80,10 +80,10 @@ export function Article({ doc }: { doc: Doc }) {
   return (
     <>
       <article className={marketing ? "pb-20" : ""}>
-        <header className="relative isolate flex min-h-[78vh] items-end overflow-hidden bg-ink text-white">
+        <header className="relative isolate flex min-h-[440px] items-end overflow-hidden bg-ink text-white md:min-h-[520px]">
           {doc.hero ? <HeroMedia src={doc.hero} /> : null}
           <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/60 to-ink/25" />
-          <div className="relative mx-auto w-full max-w-[1120px] px-4 py-16 md:py-24">
+          <div className="relative mx-auto w-full max-w-[1120px] px-4 py-10 md:py-14">
             <nav className="text-sm text-white/80" aria-label="Breadcrumb">
               {trail.map((item, index) => (
                 <span key={item.path}>
@@ -98,7 +98,7 @@ export function Article({ doc }: { doc: Doc }) {
                 </span>
               ))}
             </nav>
-            <h1 className="mt-4 max-w-[16ch] text-4xl font-semibold leading-tight md:text-6xl">{doc.h1}</h1>
+            <h1 className="mt-3 max-w-[16ch] text-5xl font-semibold leading-[0.92] tracking-tight md:text-7xl">{doc.h1}</h1>
             {doc.directAnswer ? (
               <p className="mt-5 max-w-[62ch] text-base text-white md:text-lg">
                 <span className="mr-2 inline-block rounded-full bg-amber px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-ink">
@@ -112,12 +112,14 @@ export function Article({ doc }: { doc: Doc }) {
         {marketing ? (
           <FlowSections source={visibleBody(doc)} />
         ) : (
-          <div className="mx-auto max-w-[760px] px-4 py-12">
-            <MarkdownBody source={visibleBody(doc)} />
+          <div className="mark">
+            <div className="mx-auto max-w-[760px] px-4 py-12">
+              <MarkdownBody source={visibleBody(doc)} />
+            </div>
           </div>
         )}
         {doc.faq?.length ? (
-          <div className="bg-white">
+          <div className="mark">
             <Reveal>
               <FaqList items={doc.faq} />
             </Reveal>

@@ -24,7 +24,7 @@ export function RelatedLinks({ doc }: { doc: Doc }) {
       : cities().slice(0, 4);
 
   return (
-    <aside className="bg-base py-16">
+    <aside className="mark py-16">
       <div className="mx-auto max-w-[1120px] px-4">
         <Reveal>
           <h2 className="text-3xl font-semibold">Keep reading</h2>
