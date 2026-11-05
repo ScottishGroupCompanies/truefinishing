@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaqList } from "./FaqList";
+import { FlowSections } from "./FlowSections";
 import { JsonLd } from "./JsonLd";
-import { MarkdownBody } from "./MarkdownBody";
 import { RelatedLinks } from "./RelatedLinks";
 import { EstimateForm } from "./EstimateForm";
+import { Reveal } from "./Reveal";
 import type { Doc } from "@/lib/types";
 import { blogPostingSchema, breadcrumbSchema, caseStudySchema, faqSchema, serviceSchema } from "@/lib/seo";
 
@@ -71,30 +72,30 @@ export function Article({ doc }: { doc: Doc }) {
   return (
     <>
       <article>
-        <nav className="mx-auto max-w-[1120px] px-4 pt-4 text-sm text-muted" aria-label="Breadcrumb">
-          {trail.map((item, index) => (
-            <span key={item.path}>
-              {index > 0 ? <span className="px-1">/</span> : null}
-              {index === trail.length - 1 ? <span>{item.name}</span> : <a href={item.path}>{item.name}</a>}
-            </span>
-          ))}
-        </nav>
-        <header className="relative mt-4 min-h-[280px] bg-ink text-white">
+        <header className="relative isolate flex min-h-[70vh] items-end bg-ink text-white">
           {doc.hero ? (
-            <Image
-              src={doc.hero}
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover opacity-60"
-            />
+            <Image src={doc.hero} alt="" fill priority sizes="100vw" className="object-cover" />
           ) : null}
-          <div className="relative mx-auto flex min-h-[280px] max-w-[1120px] flex-col justify-end px-4 py-10">
-            <h1 className="max-w-[18ch] text-4xl font-semibold leading-tight md:text-5xl">{doc.h1}</h1>
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/65 to-ink/25" />
+          <div className="relative mx-auto w-full max-w-[1120px] px-4 py-16 md:py-24">
+            <nav className="text-sm text-white/80" aria-label="Breadcrumb">
+              {trail.map((item, index) => (
+                <span key={item.path}>
+                  {index > 0 ? <span className="px-1">/</span> : null}
+                  {index === trail.length - 1 ? (
+                    <span>{item.name}</span>
+                  ) : (
+                    <Link href={item.path} className="text-white hover:text-amber">
+                      {item.name}
+                    </Link>
+                  )}
+                </span>
+              ))}
+            </nav>
+            <h1 className="mt-4 max-w-[16ch] text-4xl font-semibold leading-tight md:text-6xl">{doc.h1}</h1>
             {doc.directAnswer ? (
-              <p className="mt-4 max-w-[68ch] text-base text-white/95 md:text-lg">
-                <span className="mr-2 rounded-full bg-amber px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-ink">
+              <p className="mt-5 max-w-[62ch] text-base text-white md:text-lg">
+                <span className="mr-2 inline-block rounded-full bg-amber px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-ink">
                   Quick answer
                 </span>
                 {doc.directAnswer}
@@ -102,18 +103,32 @@ export function Article({ doc }: { doc: Doc }) {
             ) : null}
           </div>
         </header>
-        <div className="mx-auto max-w-[720px] px-4 py-8">
-          <MarkdownBody source={visibleBody(doc)} />
-        </div>
-        {doc.faq?.length ? <FaqList items={doc.faq} /> : null}
+        <FlowSections source={visibleBody(doc)} />
+        {doc.faq?.length ? (
+          <div className="bg-white">
+            <Reveal>
+              <FaqList items={doc.faq} />
+            </Reveal>
+          </div>
+        ) : null}
         <RelatedLinks doc={doc} />
       </article>
-      {showForm(doc) ? <EstimateForm /> : (
-        <p className="mx-auto max-w-[720px] px-4 pb-12">
-          <Link href="/contact/#contact" className="btn">
-            Get a Free Estimate
-          </Link>
-        </p>
+      {showForm(doc) ? (
+        <EstimateForm />
+      ) : (
+        <section className="bg-amber">
+          <div className="mx-auto flex max-w-[1120px] flex-wrap items-center justify-between gap-4 px-4 py-10">
+            <h2 className="text-2xl font-semibold text-ink">Get a Free Estimate</h2>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/contact/#contact" className="btn btn-ink">
+                Get a Free Estimate
+              </Link>
+              <a href="tel:303-761-1012" className="btn bg-white">
+                Call 303-761-1012
+              </a>
+            </div>
+          </div>
+        </section>
       )}
       <JsonLd data={schema} />
     </>

@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import type { Doc } from "@/lib/types";
 
 function formatDate(value?: string) {
@@ -17,14 +19,23 @@ export function PostList({ posts }: { posts: Doc[] }) {
     return <p className="text-muted">No articles are published in this section yet.</p>;
   }
   return (
-    <ul className="divide-y divide-grey border-y border-grey">
+    <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {posts.map((post) => (
-        <li key={post.path} className="py-5">
-          <p className="text-xs uppercase tracking-wide text-muted">{formatDate(post.publishDate)}</p>
-          <h2 className="mt-1 text-2xl font-semibold">
-            <a href={post.path}>{post.h1}</a>
-          </h2>
-          <p className="mt-2 text-ink/80">{post.description}</p>
+        <li key={post.path}>
+          <Link href={post.path} className="service-card flex h-full flex-col overflow-hidden rounded-2xl bg-white text-ink no-underline shadow-sm">
+            {post.hero ? (
+              <div className="relative aspect-[16/10]">
+                <Image src={post.hero} alt="" fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />
+              </div>
+            ) : (
+              <div className="h-2 bg-amber" />
+            )}
+            <div className="flex flex-1 flex-col p-5">
+              <p className="text-xs uppercase tracking-wide text-muted">{formatDate(post.publishDate)}</p>
+              <h2 className="mt-2 text-xl font-semibold">{post.h1}</h2>
+              <p className="mt-2 text-sm text-ink/80">{post.description}</p>
+            </div>
+          </Link>
         </li>
       ))}
     </ul>
@@ -35,12 +46,12 @@ export function Pager({ base, page, pages }: { base: string; page: number; pages
   if (pages < 2) return null;
   const href = (n: number) => (n <= 1 ? base : `${base}page/${n}/`);
   return (
-    <nav className="mt-8 flex items-center justify-between text-sm" aria-label="Pagination">
-      {page > 1 ? <a href={href(page - 1)}>Previous</a> : <span />}
+    <nav className="mt-10 flex items-center justify-between text-sm" aria-label="Pagination">
+      {page > 1 ? <Link href={href(page - 1)} className="btn">Previous</Link> : <span />}
       <span>
         Page {page} of {pages}
       </span>
-      {page < pages ? <a href={href(page + 1)}>Next</a> : <span />}
+      {page < pages ? <Link href={href(page + 1)} className="btn">Next</Link> : <span />}
     </nav>
   );
 }
