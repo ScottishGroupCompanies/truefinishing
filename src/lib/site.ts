@@ -58,7 +58,6 @@ export const NAV: NavItem[] = [
   },
   { label: "Case Studies", href: "/case-studies/" },
   { label: "Cities We Serve", href: "/cities-we-serve/" },
-  { label: "Blog", href: "/blog/" },
 ];
 
 export const SERVICE_LINKS = NAV.flatMap((item) =>
